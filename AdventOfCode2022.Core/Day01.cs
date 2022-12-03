@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+﻿using static AdventOfCode2022.Core.Constants;
 
 namespace AdventOfCode2022.Core
 {
@@ -6,15 +6,12 @@ namespace AdventOfCode2022.Core
     {
         public string QuestionName => "--- Day 1: Calorie Counting ---";
 
-        private static readonly Regex newLine = new Regex("(\r\n|\r|\n)");
-        private static readonly Regex doubleNewLine = new Regex("(\r\n|\r|\n){2}");
-
         private static readonly IOrderedEnumerable<int> calories =
-            doubleNewLine.Split(Inputs.Day01)
+            DOUBLE_NEW_LINE.Split(Inputs.Day01)
             .Select((elf) =>
-                newLine.Split(elf)
-                       .Where(it => !newLine.IsMatch(it) && !string.IsNullOrEmpty(it))
-                       .Aggregate(0, (a, c) => a + int.Parse(c))
+                NEW_LINE.Split(elf)
+                       .Where(it => !NEW_LINE.IsMatch(it) && !string.IsNullOrEmpty(it))
+                       .Aggregate(0, (calories, snack) => calories + int.Parse(snack))
             )
             .OrderDescending();
 
