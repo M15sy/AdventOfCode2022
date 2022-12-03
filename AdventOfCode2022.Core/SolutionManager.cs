@@ -4,7 +4,8 @@
     {
         private IList<ISolution> _solutions = new List<ISolution>(){
             new Day01(),
-            new Day02()
+            new Day02(),
+            new Day03(),
         };
 
         public IList<ISolution> AllSolutions
