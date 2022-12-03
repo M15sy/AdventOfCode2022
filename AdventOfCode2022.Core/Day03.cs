@@ -1,42 +1,49 @@
-﻿using static AdventOfCode2022.Core.Constants;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using static AdventOfCode2022.Core.Constants;
 
 namespace AdventOfCode2022.Core
 {
-    public class Day03 : ISolution
+    public sealed class Day03 : ISolution
     {
         public string QuestionName => "--- Day 3: Rucksack Reorganization ---";
 
+        private static readonly IEnumerable<string> lines = NEW_LINE.Split(Inputs.Day03).Where(it => !NEW_LINE.IsMatch(it));
+
         private static readonly string priority = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        private static readonly IEnumerable<string> lines = NEW_LINE.Split(Inputs.Day03).Where(it => !NEW_LINE.IsMatch(it));
+        private static int GetPriority(string? first, params string?[]? rest)
+        {
+            if (first is null) throw new ArgumentException("Expect 'first' not to be null");
+            if (rest is null || rest.Any(it => it is null))
+            {
+                throw new ArgumentException("Expect 'rest' not to be null, empty or to contain null");
+            }
+            return priority.IndexOf(first.First(c => rest.All(it => it is not null && it.Contains(c))));
+        }
 
         public string SolvePart1() =>
            lines
            .Select(line =>
            {
-               var half = line.Length / 2;
-               var compartment_1 = line.Substring(0, half);
-               var compartment_2 = line.Substring(half, half);
-
-               return priority.IndexOf(compartment_1.First(c => compartment_2.Contains(c)));
+               var mid = line.Length / 2;
+               return GetPriority(line[0..mid], line[mid..]);
            })
            .Sum()
            .ToString();
 
-        public string SolvePart2()
-        {
-            var result = 0;
-
-            for (int i = 2; i < lines.Count(); i += 3)
+        public string SolvePart2() =>
+            lines
+            .Aggregate(new List<List<string?>>(), (acc, cur) =>
             {
-                var rucksack_1 = lines.ElementAt(i - 2);
-                var rucksack_2 = lines.ElementAt(i - 1);
-                var rucksack_3 = lines.ElementAt(i);
-
-                result += priority.IndexOf(rucksack_1.First(c => rucksack_2.Contains(c) && rucksack_3.Contains(c)));
-            }
-
-            return result.ToString();
-        }
+                bool popLast = acc.Count() > 0 && acc[acc.Count() - 1][2] == null;
+                var group = popLast ? acc.Last() : new List<string?>() { null, null, null };
+                group[group.IndexOf(null)] = cur;
+                return acc.SkipLast(popLast ? 1 : 0).Append(group).ToList();
+            })
+            .Select(group => GetPriority(group[0], group[1], group[2]))
+            .Sum()
+            .ToString();
     }
 }

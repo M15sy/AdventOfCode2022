@@ -2,7 +2,7 @@
 
 namespace AdventOfCode2022.Core
 {
-    public class Day02 : ISolution
+    public sealed class Day02 : ISolution
     {
         public string QuestionName => "--- Day 2: Rock Paper Scissors ---";
 
@@ -13,7 +13,7 @@ namespace AdventOfCode2022.Core
             "A" => Shape.Rock,
             "B" => Shape.Paper,
             "C" => Shape.Scissors,
-            _ => throw new Exception($"Unknown input: {input}")
+            _ => throw new ArgumentException($"Unknown input: {input}")
         };
 
         private Shape ToWin(Shape shape) => shape switch
@@ -21,7 +21,7 @@ namespace AdventOfCode2022.Core
             Shape.Rock => Shape.Paper,
             Shape.Paper => Shape.Scissors,
             Shape.Scissors => Shape.Rock,
-            _ => throw new Exception($"Unknown shape {shape}")
+            _ => throw new ArgumentException($"Unknown: shape {shape}")
         };
 
         private Shape ToLoss(Shape shape) => shape switch
@@ -29,7 +29,7 @@ namespace AdventOfCode2022.Core
             Shape.Rock => Shape.Scissors,
             Shape.Paper => Shape.Rock,
             Shape.Scissors => Shape.Paper,
-            _ => throw new Exception($"Unknown shape {shape}")
+            _ => throw new ArgumentException($"Unknown shape: {shape}")
         };
 
         private int CalcShapeScore(Shape shape) => shape switch
@@ -37,7 +37,7 @@ namespace AdventOfCode2022.Core
             Shape.Rock => 1,
             Shape.Paper => 2,
             Shape.Scissors => 3,
-            _ => throw new Exception($"Unknown shape {shape}")
+            _ => throw new ArgumentException($"Unknown shape: {shape}")
         };
 
         private int CalcOutcomeScore(Shape yourShape, Shape opponentShape) => yourShape switch
@@ -65,7 +65,7 @@ namespace AdventOfCode2022.Core
             "X" => Shape.Rock,
             "Y" => Shape.Paper,
             "Z" => Shape.Scissors,
-            _ => throw new Exception($"Unknown input: {input}")
+            _ => throw new ArgumentException($"Unknown input: {input}")
         });
 
         public string SolvePart2() => Solve((input, opponentShape) => input switch
@@ -73,7 +73,7 @@ namespace AdventOfCode2022.Core
             "Z" => ToWin(opponentShape),
             "Y" => opponentShape,
             "X" => ToLoss(opponentShape),
-            _ => throw new Exception($"Unknown input: {input}")
+            _ => throw new ArgumentException($"Unknown input: {input}")
         });
     }
 }

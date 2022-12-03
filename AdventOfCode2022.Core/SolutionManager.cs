@@ -6,11 +6,9 @@
             new Day01(),
             new Day02(),
             new Day03(),
+            new Day04(),
         };
 
-        public IList<ISolution> AllSolutions
-        {
-            get { return _solutions; }
-        }
+        public IList<ISolution> AllSolutions { get => _solutions; }
     }
 }
