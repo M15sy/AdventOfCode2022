@@ -2,9 +2,19 @@
 
 namespace AdventOfCode2022.Core
 {
-    static class Constants
+    /// <summary>
+    /// A class containing useful constants.
+    /// </summary>
+    internal static class Constants
     {
-        internal static readonly Regex NEW_LINE = new Regex("(\r\n|\r|\n)");
-        internal static readonly Regex DOUBLE_NEW_LINE = new Regex("(\r\n|\r|\n){2}");
+        /// <summary>
+        /// A regex to match line separators.
+        /// </summary>
+        internal static readonly Regex NewLine = new Regex("(\r\n|\r|\n)");
+
+        /// <summary>
+        /// A regex to match exactly two line separators.
+        /// </summary>
+        internal static readonly Regex DoubleNewLine = new Regex("(\r\n|\r|\n){2}");
     }
 }

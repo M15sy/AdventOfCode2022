@@ -1,6 +1,8 @@
 ﻿namespace AdventOfCode2022.Core
 {
-    static class Inputs
+    // TODO handle inputs better
+#pragma warning disable
+    internal static class Inputs
     {
         internal const string Day01 = @"4456
 15332
@@ -6074,4 +6076,3 @@ PwRJfGDBfCHMzRHNHMNR";
 3-64,7-64";
     }
 }
-
