@@ -5,22 +5,25 @@ namespace AdventOfCode2022.Core
     /// <summary>
     /// Class representation of a solution for <c>https://adventofcode.com/2022/day/4</c>.
     /// </summary>
-    public sealed class Day04 : ISolution
+    public sealed class Day04 : SolutionBase
     {
-        private static readonly IEnumerable<(IEnumerable<int>, IEnumerable<int>)> Pairs =
-            NewLine.Split(Inputs.Day04).Where(it => !NewLine.IsMatch(it))
-            .Select(line =>
-            {
-                var assignments = line.Split(',');
-                return (ParseAssignment(assignments[0]), ParseAssignment(assignments[1]));
-            });
+        /// <inheritdoc/>
+        public override string PuzzleName => "--- Day 4: Camp Cleanup ---";
 
         /// <inheritdoc/>
-        public string PuzzleName => "--- Day 4: Camp Cleanup ---";
+        protected override string InputFileName => "Day04";
+
+        private IEnumerable<(IEnumerable<int>, IEnumerable<int>)> Pairs =>
+            NewLine.Split(this.ReadInput()).Where(it => !NewLine.IsMatch(it))
+                    .Select(line =>
+                    {
+                        var assignments = line.Split(',');
+                        return (ParseAssignment(assignments[0]), ParseAssignment(assignments[1]));
+                    });
 
         /// <inheritdoc/>
-        public string SolvePart1() =>
-            Pairs.Where(pair => pair switch
+        public override string SolvePart1() =>
+            this.Pairs.Where(pair => pair switch
             {
                 var (e_1, e_2) when e_1.First() >= e_2.First() && e_1.Last() <= e_2.Last() => true,
                 var (e_1, e_2) when e_2.First() >= e_1.First() && e_2.Last() <= e_1.Last() => true,
@@ -30,8 +33,8 @@ namespace AdventOfCode2022.Core
             .ToString();
 
         /// <inheritdoc/>
-        public string SolvePart2() =>
-            Pairs.Where(pair => pair.Item1.Intersect(pair.Item2).Any()).Count().ToString();
+        public override string SolvePart2() =>
+            this.Pairs.Where(pair => pair.Item1.Intersect(pair.Item2).Any()).Count().ToString();
 
         private static IEnumerable<int> ParseAssignment(string input)
         {

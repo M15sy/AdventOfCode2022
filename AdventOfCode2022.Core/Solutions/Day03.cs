@@ -8,18 +8,21 @@ namespace AdventOfCode2022.Core
     /// <summary>
     /// Class representation of a solution for <c>https://adventofcode.com/2022/day/3</c>.
     /// </summary>
-    public sealed class Day03 : ISolution
+    public sealed class Day03 : SolutionBase
     {
-        private static readonly IEnumerable<string> Lines = NewLine.Split(Inputs.Day03).Where(it => !NewLine.IsMatch(it));
-
         private static readonly string Priority = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <inheritdoc/>
-        public string PuzzleName => "--- Day 3: Rucksack Reorganization ---";
+        public override string PuzzleName => "--- Day 3: Rucksack Reorganization ---";
 
         /// <inheritdoc/>
-        public string SolvePart1() =>
-           Lines
+        protected override string InputFileName => "Day03";
+
+        private IEnumerable<string> Lines => NewLine.Split(this.ReadInput()).Where(it => !NewLine.IsMatch(it));
+
+        /// <inheritdoc/>
+        public override string SolvePart1() =>
+           this.Lines
            .Select(line =>
            {
                var mid = line.Length / 2;
@@ -29,8 +32,8 @@ namespace AdventOfCode2022.Core
            .ToString();
 
         /// <inheritdoc/>
-        public string SolvePart2() =>
-            Lines
+        public override string SolvePart2() =>
+            this.Lines
             .Aggregate(new List<List<string?>>(), (acc, cur) =>
             {
                 bool popLast = acc.Count() > 0 && acc[acc.Count() - 1][2] == null;

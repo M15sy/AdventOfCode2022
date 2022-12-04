@@ -3,9 +3,9 @@
 namespace AdventOfCode2022.Core
 {
     /// <summary>
-    /// Class representaion of a solution for <c>https://adventofcode.com/2022/day/2</c>.
+    /// Class representation of a solution for <c>https://adventofcode.com/2022/day/2</c>.
     /// </summary>
-    public sealed class Day02 : ISolution
+    public sealed class Day02 : SolutionBase
     {
         private enum Shape
         {
@@ -15,10 +15,13 @@ namespace AdventOfCode2022.Core
         }
 
         /// <inheritdoc/>
-        public string PuzzleName => "--- Day 2: Rock Paper Scissors ---";
+        public override string PuzzleName => "--- Day 2: Rock Paper Scissors ---";
 
         /// <inheritdoc/>
-        public string SolvePart1() => this.Solve((input, _) => input switch
+        protected override string InputFileName => "Day02";
+
+        /// <inheritdoc/>
+        public override string SolvePart1() => this.Solve((input, _) => input switch
         {
             "X" => Shape.Rock,
             "Y" => Shape.Paper,
@@ -27,7 +30,7 @@ namespace AdventOfCode2022.Core
         });
 
         /// <inheritdoc/>
-        public string SolvePart2() => this.Solve((input, opponentShape) => input switch
+        public override string SolvePart2() => this.Solve((input, opponentShape) => input switch
         {
             "Z" => this.ToWin(opponentShape),
             "Y" => opponentShape,
@@ -36,7 +39,7 @@ namespace AdventOfCode2022.Core
         });
 
         private string Solve(Func<string, Shape, Shape> parseMyShape) =>
-            NewLine.Split(Inputs.Day02)
+            NewLine.Split(this.ReadInput())
                 .Where(it => !NewLine.IsMatch(it))
                 .Select((round) =>
                 {
