@@ -34,12 +34,13 @@ namespace AdventOfCode2022.Core
         /// <inheritdoc/>
         public override string SolvePart2() =>
             this.Lines
-            .Aggregate(new List<List<string?>>(), (acc, cur) =>
+            .Aggregate(new Stack<List<string?>>(), (acc, cur) =>
             {
-                bool popLast = acc.Count() > 0 && acc[acc.Count() - 1][2] == null;
-                var group = popLast ? acc.Last() : new List<string?>() { null, null, null };
+                bool shouldPop = acc.Count() > 0 && acc.Peek()[2] == null;
+                var group = shouldPop ? acc.Pop() : new List<string?>() { null, null, null };
                 group[group.IndexOf(null)] = cur;
-                return acc.SkipLast(popLast ? 1 : 0).Append(group).ToList();
+                acc.Push(group);
+                return acc;
             })
             .Select(group => GetPriority(group[0], group[1], group[2]))
             .Sum()
