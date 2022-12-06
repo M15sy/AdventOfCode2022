@@ -11,6 +11,7 @@ public class ISolutionTests
             new object[] { new Day03(), "8349", "2681" },
             new object[] { new Day04(), "536", "845" },
             new object[] { new Day05(), "ZRLJGSCTR", "PRTTGRFPB" },
+            new object[] { new Day06(), "1198", "3120" },
         };
 
     [Theory]
