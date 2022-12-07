@@ -32,26 +32,13 @@ namespace AdventOfCode2022.Core
         /// <inheritdoc/>
         public override string SolvePart2() => this.Solve((input, opponentShape) => input switch
         {
-            "Z" => this.ToWin(opponentShape),
+            "Z" => ToWin(opponentShape),
             "Y" => opponentShape,
-            "X" => this.ToLoss(opponentShape),
+            "X" => ToLoss(opponentShape),
             _ => throw new ArgumentException($"Unknown input: {input}")
         });
 
-        private string Solve(Func<string, Shape, Shape> parseMyShape) =>
-            NewLine.Split(this.ReadInput())
-                .Where(it => !NewLine.IsMatch(it))
-                .Select((round) =>
-                {
-                    var shapes = round.Split();
-                    var opponentShape = this.ParseOpponentShape(shapes[0]);
-                    var myShape = parseMyShape(shapes[1], opponentShape);
-                    return this.CalcShapeScore(myShape) + this.CalcOutcomeScore(myShape, opponentShape);
-                })
-                .Sum()
-                .ToString();
-
-        private Shape ParseOpponentShape(string input) => input switch
+        private static Shape ParseOpponentShape(string input) => input switch
         {
             "A" => Shape.Rock,
             "B" => Shape.Paper,
@@ -59,7 +46,7 @@ namespace AdventOfCode2022.Core
             _ => throw new ArgumentException($"Unknown input: {input}")
         };
 
-        private Shape ToWin(Shape shape) => shape switch
+        private static Shape ToWin(Shape shape) => shape switch
         {
             Shape.Rock => Shape.Paper,
             Shape.Paper => Shape.Scissors,
@@ -67,7 +54,7 @@ namespace AdventOfCode2022.Core
             _ => throw new ArgumentException($"Unknown: shape {shape}")
         };
 
-        private Shape ToLoss(Shape shape) => shape switch
+        private static Shape ToLoss(Shape shape) => shape switch
         {
             Shape.Rock => Shape.Scissors,
             Shape.Paper => Shape.Rock,
@@ -75,7 +62,7 @@ namespace AdventOfCode2022.Core
             _ => throw new ArgumentException($"Unknown shape: {shape}")
         };
 
-        private int CalcShapeScore(Shape shape) => shape switch
+        private static int CalcShapeScore(Shape shape) => shape switch
         {
             Shape.Rock => 1,
             Shape.Paper => 2,
@@ -83,11 +70,24 @@ namespace AdventOfCode2022.Core
             _ => throw new ArgumentException($"Unknown shape: {shape}")
         };
 
-        private int CalcOutcomeScore(Shape yourShape, Shape opponentShape) => yourShape switch
+        private static int CalcOutcomeScore(Shape yourShape, Shape opponentShape) => yourShape switch
         {
-            var shape when shape == this.ToWin(opponentShape) => 6,
+            var shape when shape == ToWin(opponentShape) => 6,
             var shape when shape == opponentShape => 3,
             _ => 0
         };
+
+        private string Solve(Func<string, Shape, Shape> parseMyShape) =>
+            NewLine.Split(this.ReadInput())
+                .Where(it => !NewLine.IsMatch(it))
+                .Select((round) =>
+                {
+                    var shapes = round.Split();
+                    var opponentShape = ParseOpponentShape(shapes[0]);
+                    var myShape = parseMyShape(shapes[1], opponentShape);
+                    return CalcShapeScore(myShape) + CalcOutcomeScore(myShape, opponentShape);
+                })
+                .Sum()
+                .ToString();
     }
 }

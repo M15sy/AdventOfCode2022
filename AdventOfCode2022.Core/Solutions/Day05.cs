@@ -1,4 +1,3 @@
-using System;
 using System.Text.RegularExpressions;
 using static AdventOfCode2022.Core.Constants;
 

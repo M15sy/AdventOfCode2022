@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Reflection;
-using static AdventOfCode2022.Core.Constants;
+﻿using static AdventOfCode2022.Core.Constants;
 
 namespace AdventOfCode2022.Core
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using static AdventOfCode2022.Core.Constants;
+﻿using static AdventOfCode2022.Core.Constants;
 
 namespace AdventOfCode2022.Core
 {
@@ -36,7 +33,7 @@ namespace AdventOfCode2022.Core
             this.Lines
             .Aggregate(new Stack<List<string?>>(), (acc, cur) =>
             {
-                bool shouldPop = acc.Count() > 0 && acc.Peek()[2] == null;
+                bool shouldPop = acc.Count > 0 && acc.Peek()[2] == null;
                 var group = shouldPop ? acc.Pop() : new List<string?>() { null, null, null };
                 group[group.IndexOf(null)] = cur;
                 acc.Push(group);
