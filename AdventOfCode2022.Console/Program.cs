@@ -2,7 +2,7 @@
 
 var solutions = new SolutionManager();
 
-foreach (var day in solutions.AllSolutions)
+foreach (var day in solutions.AllSolutions())
 {
     Console.WriteLine(day.PuzzleName);
     Console.WriteLine(@$"Part 1: {day.SolvePart1()}");

@@ -17,3 +17,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+results/*.csv
+results/*.html
+
+# Log files
+*.log

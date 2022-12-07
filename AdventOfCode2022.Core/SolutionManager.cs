@@ -5,20 +5,19 @@
     /// </summary>
     public class SolutionManager
     {
-        private readonly IList<ISolution> solutions = new List<ISolution>()
-        {
-            new Day01(),
-            new Day02(),
-            new Day03(),
-            new Day04(),
-            new Day05(),
-            new Day06(),
-            new Day07(),
-        };
-
         /// <summary>
-        /// Gets a list of all the solutions.
+        /// All the solutions.
         /// </summary>
-        public IList<ISolution> AllSolutions { get => this.solutions; }
+        /// <returns>An IEnumerable of all the solutions.</returns>
+        public IEnumerable<ISolution> AllSolutions()
+        {
+            yield return new Day01();
+            yield return new Day02();
+            yield return new Day03();
+            yield return new Day04();
+            yield return new Day05();
+            yield return new Day06();
+            yield return new Day07();
+        }
     }
 }
