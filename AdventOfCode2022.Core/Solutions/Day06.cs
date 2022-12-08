@@ -7,13 +7,21 @@ namespace AdventOfCode2022.Core
     /// </summary>
     public sealed class Day06 : SolutionBase
     {
+        private string input;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Day06"/> class.
+        /// </summary>
+        public Day06()
+        {
+            this.input = this.ReadInput();
+        }
+
         /// <inheritdoc/>
         public override string PuzzleName => "--- Day 6: Tuning Trouble ---";
 
         /// <inheritdoc/>
         protected override string InputFileName => "Day06";
-
-        private string Input => this.ReadInput();
 
         /// <inheritdoc/>
         public override string SolvePart1() => this.Solve(4);
@@ -23,9 +31,9 @@ namespace AdventOfCode2022.Core
 
         private string Solve(int distinct)
         {
-            for (var i = distinct; i < this.Input.Length; i++)
+            for (var i = distinct; i < this.input.Length; i++)
             {
-                var substring = this.Input.Substring(i - distinct, distinct);
+                var substring = this.input.Substring(i - distinct, distinct);
                 var set = substring.ToHashSet();
                 if (substring.Length == set.Count())
                 {

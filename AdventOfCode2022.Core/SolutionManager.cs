@@ -18,6 +18,7 @@
             yield return new Day05();
             yield return new Day06();
             yield return new Day07();
+            yield return new Day08();
         }
     }
 }
