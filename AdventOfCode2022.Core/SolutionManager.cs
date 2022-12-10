@@ -20,6 +20,7 @@
             yield return new Day07();
             yield return new Day08();
             yield return new Day09();
+            yield return new Day10();
         }
     }
 }
