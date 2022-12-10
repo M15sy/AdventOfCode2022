@@ -78,16 +78,15 @@ namespace AdventOfCode2022.Core
         };
 
         private string Solve(Func<string, Shape, Shape> parseMyShape) =>
-            NewLine.Split(this.ReadInput())
-                .Where(it => !NewLine.IsMatch(it))
-                .Select((round) =>
-                {
-                    var shapes = round.Split();
-                    var opponentShape = ParseOpponentShape(shapes[0]);
-                    var myShape = parseMyShape(shapes[1], opponentShape);
-                    return CalcShapeScore(myShape) + CalcOutcomeScore(myShape, opponentShape);
-                })
-                .Sum()
-                .ToString();
+            NewLine.Split(this.ReadInput()).Where(it => !NewLine.IsMatch(it))
+            .Select((round) =>
+            {
+                var shapes = round.Split();
+                var opponentShape = ParseOpponentShape(shapes[0]);
+                var myShape = parseMyShape(shapes[1], opponentShape);
+                return CalcShapeScore(myShape) + CalcOutcomeScore(myShape, opponentShape);
+            })
+            .Sum()
+            .ToString();
     }
 }

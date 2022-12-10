@@ -7,13 +7,13 @@ namespace AdventOfCode2022.Core
     /// </summary>
     public sealed class Day09 : SolutionBase
     {
-        private readonly string up = "U";
+        private const string Up = "U";
 
-        private readonly string right = "R";
+        private const string Right = "R";
 
-        private readonly string down = "D";
+        private const string Down = "D";
 
-        private readonly string left = "L";
+        private const string Left = "L";
 
         /// <inheritdoc/>
         public override string PuzzleName => "--- Day 9: Rope Bridge ---";
@@ -27,11 +27,46 @@ namespace AdventOfCode2022.Core
         /// <inheritdoc/>
         public override string SolvePart2() => this.Solve(10);
 
+        private static (int, int) Move((int, int) position, string? direction) =>
+            direction switch
+            {
+                "U" => (position.Item1, position.Item2 + 1),
+                "R" => (position.Item1 + 1, position.Item2),
+                "D" => (position.Item1, position.Item2 - 1),
+                "L" => (position.Item1 - 1, position.Item2),
+                _ => position
+            };
+
+        private static (int, int) Follow((int, int) position, (int, int) positionOfThingToFollow)
+        {
+            var deltaX = positionOfThingToFollow.Item1 - position.Item1;
+            var deltaY = positionOfThingToFollow.Item2 - position.Item2;
+
+            if (Math.Abs(deltaX) < 2 && Math.Abs(deltaY) < 2)
+            {
+                return position;
+            }
+
+            var directionX = deltaX switch
+            {
+                > 0 => Right,
+                < 0 => Left,
+                _ => null,
+            };
+            var directionY = deltaY switch
+            {
+                > 0 => Up,
+                < 0 => Down,
+                _ => null,
+            };
+
+            return Move(Move(position, directionX), directionY);
+        }
+
         private string Solve(int lengthOfRope)
         {
-            var lines = NewLine.Split(this.ReadInput())
-                               .Where(it => !NewLine.IsMatch(it))
-                               .Select(it => it.Split(' '));
+            var lines = NewLine.Split(this.ReadInput()).Where(it => !NewLine.IsMatch(it))
+                        .Select(it => it.Split(' '));
             var rope = Enumerable.Range(1, lengthOfRope).Select(_ => (0, 0)).ToArray();
             var tailPositions = new HashSet<(int, int)>();
 
@@ -46,8 +81,8 @@ namespace AdventOfCode2022.Core
                     {
                         rope[j] = j switch
                         {
-                            0 => this.Move(rope[j], direction),
-                            _ => this.Follow(rope[j], rope[j - 1])
+                            0 => Move(rope[j], direction),
+                            _ => Follow(rope[j], rope[j - 1])
                         };
                         if (j == rope.Length - 1)
                         {
@@ -58,42 +93,6 @@ namespace AdventOfCode2022.Core
             }
 
             return tailPositions.Count.ToString();
-        }
-
-        private (int, int) Move((int, int) position, string? direction) =>
-            direction switch
-            {
-                "U" => (position.Item1, position.Item2 + 1),
-                "R" => (position.Item1 + 1, position.Item2),
-                "D" => (position.Item1, position.Item2 - 1),
-                "L" => (position.Item1 - 1, position.Item2),
-                _ => position
-            };
-
-        private (int, int) Follow((int, int) position, (int, int) positionOfThingToFollow)
-        {
-            var deltaX = positionOfThingToFollow.Item1 - position.Item1;
-            var deltaY = positionOfThingToFollow.Item2 - position.Item2;
-
-            if (Math.Abs(deltaX) < 2 && Math.Abs(deltaY) < 2)
-            {
-                return position;
-            }
-
-            var directionX = deltaX switch
-            {
-                > 0 => this.right,
-                < 0 => this.left,
-                _ => null,
-            };
-            var directionY = deltaY switch
-            {
-                > 0 => this.up,
-                < 0 => this.down,
-                _ => null,
-            };
-
-            return this.Move(this.Move(position, directionX), directionY);
         }
     }
 }

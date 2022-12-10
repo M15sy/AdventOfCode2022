@@ -7,14 +7,43 @@ namespace AdventOfCode2022.Core
     /// </summary>
     public sealed class Day07 : SolutionBase
     {
-        private readonly int spaceUsed;
-
-        private List<int> dirSizes;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="Day07"/> class.
+        /// Defines a filesystem node.
         /// </summary>
-        public Day07()
+        private interface INode
+        {
+            /// <summary>
+            /// Gets the name of the node.
+            /// </summary>
+            string Name { get; }
+
+            /// <summary>
+            /// Gets the size of the node.
+            /// </summary>
+            int Size { get; }
+        }
+
+        /// <inheritdoc/>
+        public override string PuzzleName => "--- Day 7: No Space Left On Device ---";
+
+        /// <inheritdoc/>
+        protected override string InputFileName => "Day07";
+
+        /// <inheritdoc/>
+        public override string SolvePart1() =>
+            this.GetDirSizesWhere(_ => it => it <= 100000).Sum().ToString();
+
+        /// <inheritdoc/>
+        public override string SolvePart2() =>
+            this.GetDirSizesWhere(spaceUsed =>
+            {
+                var target = 30000000 - (70000000 - spaceUsed);
+                return it => it >= target;
+            })
+            .Min()
+            .ToString();
+
+        private IEnumerable<int> GetDirSizesWhere(Func<int, Func<int, bool>> predicateFactory)
         {
             var lines = NewLine.Split(this.ReadInput()).Where(it => !NewLine.IsMatch(it));
 
@@ -60,41 +89,9 @@ namespace AdventOfCode2022.Core
                 }
             }
 
-            this.spaceUsed = tree?.Size ?? 0;
-            this.dirSizes = dirs.Select(it => it.Size).ToList();
-        }
+            var spaceUsed = tree?.Size ?? 0;
 
-        /// <summary>
-        /// Defines a filesystem node.
-        /// </summary>
-        private interface INode
-        {
-            /// <summary>
-            /// Gets the name of the node.
-            /// </summary>
-            string Name { get; }
-
-            /// <summary>
-            /// Gets the size of the node.
-            /// </summary>
-            int Size { get; }
-        }
-
-        /// <inheritdoc/>
-        public override string PuzzleName => "--- Day 7: No Space Left On Device ---";
-
-        /// <inheritdoc/>
-        protected override string InputFileName => "Day07";
-
-        /// <inheritdoc/>
-        public override string SolvePart1() =>
-            this.dirSizes.Where(it => it <= 100000).Sum().ToString();
-
-        /// <inheritdoc/>
-        public override string SolvePart2()
-        {
-            var target = 30000000 - (70000000 - this.spaceUsed);
-            return this.dirSizes.Where(it => it >= target).Min().ToString();
+            return dirs.Select(it => it.Size).Where(predicateFactory(spaceUsed));
         }
 
         private class File : INode

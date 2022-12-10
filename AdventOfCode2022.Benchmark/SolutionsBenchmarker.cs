@@ -8,6 +8,7 @@ namespace AdventOfCode2022.Benchmark
     /// </summary>
     [MemoryDiagnoser]
     [MarkdownExporterAttribute.GitHub]
+    [ArtifactsPath(".")]
     public class SolutionsBenchmarker
     {
         private SolutionManager solutions = new SolutionManager();
