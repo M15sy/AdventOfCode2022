@@ -15,6 +15,6 @@ namespace AdventOfCode2022.Core
         /// <summary>
         /// A regex to match exactly two line separators.
         /// </summary>
-        internal static readonly Regex DoubleNewLine = new Regex("(\r\n|\r|\n){2}");
+        internal static readonly Regex DoubleNewLine = new Regex("((\r\n){2}|\r{2}|\n{2})");
     }
 }
