@@ -22,6 +22,7 @@
             yield return new Day09();
             yield return new Day10();
             yield return new Day11();
+            yield return new Day12();
         }
     }
 }

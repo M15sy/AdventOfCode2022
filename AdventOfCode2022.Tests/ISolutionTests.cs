@@ -23,5 +23,6 @@ public class ISolutionTests
         yield return new TestCaseData(new Day09(), "5907", "2303").SetName("Day09_{m}");
         yield return new TestCaseData(new Day10(), "13060", "FJUBULRZ").SetName("Day10_{m}");
         yield return new TestCaseData(new Day11(), "69918", "19573408701").SetName("Day11_{m}");
+        yield return new TestCaseData(new Day12(), "350", "349").SetName("Day12_{m}");
     }
 }
